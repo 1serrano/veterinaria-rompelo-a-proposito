@@ -1,3 +1,4 @@
+import { enviarAviso } from './avisos.js';
 import { buscarServicio } from './catalogo.js';
 
 // Agenda de un consultorio. No conoce ni espera al módulo de avisos.
