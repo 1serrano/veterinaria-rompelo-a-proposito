@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Agenda de demostración de una veterinaria. Taller Rómpelo a propósito, Arquitectura de Software.">
+  <title>Huella · Agenda veterinaria</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,sans-serif;color:#223c36;background:#f4f6f2;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1100px;margin:auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d7e1d8;padding-top:36px}
+    .marca{display:flex;gap:14px;align-items:center}.sello{background:#245b45;color:white;border-radius:18px;padding:13px;font-size:25px}
+    h1{font-size:28px;margin:0;letter-spacing:-1px}header p{margin:3px 0 0;color:#596f64;font-size:14px}.etiqueta{font-size:12px;border:1px solid #bdd1c0;border-radius:20px;padding:7px 12px}
+    .intro{margin-bottom:24px}.intro h2{font-size:30px;margin:8px 0}.intro p{color:#596f64;margin:0;line-height:1.6}
+    .columnas{display:grid;grid-template-columns:1fr 1fr;gap:24px}.panel{background:#fff;border:1px solid #dae3da;border-radius:16px;padding:24px;margin-bottom:24px}
+    h2,h3{margin-top:0}h3{font-size:18px}label{display:block;font-weight:600;font-size:14px;margin:17px 0 7px}
+    input,select,button{font:inherit}input,select{width:100%;padding:12px;border:1px solid #b7c7bb;border-radius:8px;background:#fff;color:#223c36}
+    button{cursor:pointer;border:0;border-radius:8px;padding:12px 16px;background:#245b45;color:#fff;font-weight:600}button:disabled{opacity:.5;cursor:wait}
+    button:hover{background:#174332}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #cf971a;outline-offset:3px}
+    #guardar{width:100%;margin-top:22px}.secundario{background:#eaf0e8;color:#245b45;font-size:13px}.secundario:hover{background:#dce8d9}
+    .titulo-panel{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.titulo-panel h3{margin:0}
+    ul{list-style:none;padding:0;margin:0}li{padding:16px 0;border-top:1px solid #e7ece5}li:first-child{border-top:0;padding-top:0}li:last-child{padding-bottom:0}
+    li strong,li span,li time{display:block}li span{color:#607368;font-size:13px;margin-top:5px}li time{font-size:13px;margin-top:9px;color:#245b45;font-weight:600}
+    .contador{background:#eef3e9;border-radius:20px;padding:5px 11px;font-size:13px}.vacio{color:#667a6c;text-align:center;padding:28px 12px;line-height:1.7}
+    .demo{background:#edf1e6}.demo p{font-size:13px;color:#526650;line-height:1.6}.interruptor{display:flex;gap:10px;align-items:center}.interruptor input{width:18px;height:18px;accent-color:#245b45}
+    #estado-avisos{font-size:12px;color:#526650}.mensaje:empty{display:none}.mensaje{padding:12px;border-radius:8px;font-size:14px;line-height:1.5;margin-top:16px}
+    .exito{background:#e6f4e8;color:#1b522f}.advertencia{background:#fff1cb;color:#735000}.error{background:#ffe9e3;color:#8c2f19}
+    #carga{background:#fff1cb;padding:14px;border-radius:8px;line-height:1.6}footer{font-size:12px;color:#607368;padding-top:0;line-height:1.7}
+    [hidden]{display:none!important}@media(max-width:720px){.columnas{grid-template-columns:1fr}header,main,footer{padding:20px}.etiqueta{display:none}.intro h2{font-size:26px}.panel{padding:20px}}
+    @media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
+  </style>
+</head>
+<body>
+  <header><div class="marca"><span class="sello" aria-hidden="true">🐾</span><div><h1>Huella</h1><p>Agenda veterinaria</p></div></div><span class="etiqueta">Un consultorio · Atención con cita</span></header>
+  <main>
+    <section class="intro"><h2>Una cita, un cuidado a tiempo.</h2><p>Consulta los servicios y reserva un espacio para tu mascota.</p></section>
+    <p id="carga" role="status">Cargando la agenda… Si abriste este archivo con doble clic y el mensaje permanece, sigue «Cómo abrir» en el README: los módulos ES6 necesitan un servidor HTTP local.</p>
+    <div class="columnas">
+      <section class="panel"><h3>Nueva cita</h3><form id="cita-form">
+        <label for="mascota">Nombre de la mascota</label><input id="mascota" name="mascota" maxlength="60" placeholder="Ej. Luna" required>
+        <label for="responsable">Nombre del responsable</label><input id="responsable" name="responsable" maxlength="80" placeholder="Ej. Ana" required>
+        <label for="servicio">Servicio</label><select id="servicio" name="servicio" required><option value="">Elige un servicio</option></select>
+        <label for="fecha">Fecha y hora</label><input id="fecha" name="fecha" type="datetime-local" required><small>Horario local de tu dispositivo.</small>
+        <button id="guardar" type="submit" disabled>Confirmar cita</button>
+      </form><p id="mensaje" class="mensaje" role="status" aria-live="polite"></p></section>
+      <div>
+        <section class="panel"><div class="titulo-panel"><h3>Servicios</h3><button class="secundario" id="consultar" type="button">Consultar catálogo</button></div><ul id="catalogo" aria-label="Servicios disponibles"></ul></section>
+        <section class="panel"><div class="titulo-panel"><h3>Próximas citas</h3><span class="contador"><span id="total">0</span> registradas</span></div><p id="sin-citas" class="vacio">Todavía no hay citas.<br>La próxima visita empieza aquí.</p><ul id="agenda" aria-label="Citas registradas"></ul></section>
+        <section class="panel demo"><h3>Prueba del servicio de avisos</h3><p>Activa la falla y registra una cita. La reserva debe confirmarse aunque el aviso no llegue.</p><label class="interruptor"><input type="checkbox" id="fallo-avisos">Simular falla de avisos</label><span id="estado-avisos">Avisos disponibles</span></section>
+      </div>
+    </div>
+  </main>
+  <footer>Demostración académica · Datos solo en memoria: al recargar se borran las citas. Los avisos son simulados y no se envían mensajes reales. Tarifas ficticias.</footer>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

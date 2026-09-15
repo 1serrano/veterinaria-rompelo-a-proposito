@@ -1,0 +1,16 @@
+[
+  {
+    "id": "R1",
+    "adr": "ADR-001",
+    "modulo": "catalogo",
+    "no_puede_importar": ["citas", "avisos", "app"],
+    "porque": "Consultar el catálogo de servicios nunca debe crear ni modificar citas de las mascotas."
+  },
+  {
+    "id": "R2",
+    "adr": "ADR-002",
+    "modulo": "citas",
+    "no_puede_importar": ["avisos", "app"],
+    "porque": "Si el servicio de avisos falla, la cita de la mascota debe quedar confirmada y conservarse en la agenda."
+  }
+]
